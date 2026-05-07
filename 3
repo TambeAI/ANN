@@ -1,0 +1,51 @@
+
+import numpy as np 
+import numpy.random as ar 
+def inpt(): 
+    b=[] 
+    for i in range (10): 
+       asc=ord(str(i)) 
+       bin=format(asc,'07b') 
+       print(i,"->",asc,"->",bin) 
+       d=[] 
+       d=[int(i) for i in bin] 
+       b.append(d) 
+    #print(b) 
+    return b 
+ 
+x=inpt() 
+print("X=",x) 
+w=ar.rand(7) 
+print("W=",w) 
+t=[1,0,1,0,1,0,1,0,1,0] 
+b=0 
+alpha=0.1 
+ 
+for epoach in range(50): 
+    print("epoach=",epoach) 
+    e=0 
+    for i in range(len(x)): 
+        netw=np.dot(w,x[i])+b 
+        yin=1 if netw>=0 else 0 
+        error=t[i]-yin 
+        print("netw=",netw ,"yin=",yin,"error=",error ) 
+        if error!=0: 
+           e=e+1 
+           w=w+(alpha*error*np.array(x[i])) 
+           b=b+(alpha*error) 
+    if e==0: 
+        break 
+print("final W=",w) 
+print("final b=",b) 
+ 
+while True: 
+      a = int(input("Enter a number: ")) 
+      asc = ord(str(a)) 
+      bin_str = format(asc,'07b') 
+      d = [int(bit) for bit in bin_str] 
+      netw = np.dot(w,d) + b 
+      yin = 1 if netw >= 0 else 0 
+      print("Result:", "Even" if yin==1 else "Odd") 
+      choice = input("Do you want to continue? (y/n): ") 
+      if choice != 'y' and choice != 'Y': 
+        Break 
