@@ -1,0 +1,91 @@
+import numpy as np
+import numpy.random as ar
+
+# Input and Output for XOR
+X = np.array([
+    [0,0],
+    [0,1],
+    [1,0],
+    [1,1]
+])
+
+Y = np.array([
+    [0],
+    [1],
+    [1],
+    [0]
+])
+
+# Learning Rate
+lr = 0.5
+
+# Random Seed
+np.random.seed(0)
+
+print("******** INITIAL WEIGHTS ********")
+
+# Input Layer -> Hidden Layer Weights
+W1 = ar.rand(2,2)
+print("W1 =\n", W1)
+
+# Hidden Layer -> Output Layer Weights
+W2 = ar.rand(2,1)
+print("W2 =\n", W2)
+
+# Sigmoid Activation Function
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+# Derivative of Sigmoid
+def sigmoid_d(x):
+    return x * (1 - x)
+
+print("\n******** TRAINING STARTED ********")
+
+# Training Loop
+for i in range(3000):
+
+    # ---------------- FORWARD PASS ----------------
+
+    # Hidden Layer
+    x = np.dot(X, W1)
+    h = sigmoid(x)
+
+    # Output Layer
+    y = np.dot(h, W2)
+    o = sigmoid(y)
+
+    # ---------------- ERROR ----------------
+
+    e = Y - o
+
+    # ---------------- BACKWARD PASS ----------------
+
+    # Output Layer Gradient
+    d_output = e * sigmoid_d(o)
+
+    # Hidden Layer Gradient
+    d_hidden = np.dot(d_output, W2.T) * sigmoid_d(h)
+
+    # ---------------- WEIGHT UPDATE ----------------
+
+    W2 = W2 + np.dot(h.T, d_output) * lr
+    W1 = W1 + np.dot(X.T, d_hidden) * lr
+
+    # Print Error Every 500 Epochs
+    if(i % 500 == 0):
+        print("\nEpoch :", i)
+        print("MSE =", np.mean(e**2))
+
+print("\n******** FINAL OUTPUT ********")
+
+# Final Prediction
+o = [[1 if val > 0.5 else 0] for [val] in o]
+o = np.array(o)
+
+print("Predicted Output =\n", o)
+
+print("\n******** FINAL WEIGHTS ********")
+
+print("W1 =\n", W1)
+print("W2 =\n", W2)
