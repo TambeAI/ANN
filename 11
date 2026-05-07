@@ -1,0 +1,27 @@
+import numpy as np
+import tensorflow as tf
+
+x = np.array([[1], [2], [3], [4], [5], [6], [7], [8]])
+y = np.array([[0], [0], [0], [0], [0], [1], [1], [1]])
+
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(1, activation='sigmoid', input_shape=(1,))
+])
+
+model.compile(optimizer='sgd', loss='binary_crossentropy')
+
+model.fit(x, y, epochs=500, verbose=0)
+
+h = float(input("Enter the hours: "))
+
+X = np.array([[h]])
+
+pred = model.predict(X)
+
+if pred[0][0] > 0.5:
+    result = "pass"
+else:
+    result = "fail"
+
+print("Probability:", pred[0][0])
+print("Prediction:", result)
