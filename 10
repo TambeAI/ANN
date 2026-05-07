@@ -1,0 +1,38 @@
+import numpy as np
+
+
+p = np.array([
+    [1, -1, -1, 1],
+    [-1, 1, -1, 1],
+    [-1, 1, 1, -1],
+    [1, -1, 1, -1]
+])
+
+
+w = np.dot(p.T, p)
+np.fill_diagonal(w, 0)
+
+print("Weight matrix:")
+print(w)
+
+
+n = np.array([
+    [1, 1, -1, 1],
+    [-1, -1, -1, 1],
+    [1, 1, 1, -1],
+    [1, -1, 1, 1]
+])
+
+print("\nNoisy Patterns:")
+print(n)
+
+print("\nRecovered Patterns:")
+
+for i in range(len(n)):
+
+    x = n[i]
+    for j in range(5):
+        x = np.dot(x, w)
+        x = np.where(x >= 0, 1, -1)
+
+    print(x)
