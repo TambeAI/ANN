@@ -1,2 +1,40 @@
 import numpy as np
 import matplotlib.pyplot as mp
+def sigmoid(x):
+    a=1/(1+np.exp(-x))
+    return a
+def tanh(x):
+    return np.tanh(x)
+def relu(x):
+    return np.maximum(0,x)
+x=np.linspace(-10,10,20)
+y=sigmoid(x)
+y1=tanh(x)
+y2=relu(x)
+
+mp.figure(figsize=(15,10))
+mp.title("Activation funtion")
+mp.subplot(2,2,1)
+mp.plot(x,y,color='blue',marker="o",label="sigmoid")
+mp.xlabel("input",fontsize=12)
+mp.ylabel("output",fontsize=12)
+mp.legend()
+mp.grid()
+
+mp.subplot(2,2,2)
+mp.plot(x,y1,color="red",marker="o",label="tanh")
+mp.xlabel("input",fontsize=12)
+mp.ylabel("output",fontsize=12)
+mp.legend()
+mp.grid()
+
+mp.subplot(2,2,3)
+mp.plot(x,y2,color="green",marker="o",label="relu")
+mp.xlabel("input",fontsize=12)
+mp.ylabel("output",fontsize=12)
+mp.legend()
+mp.grid()
+
+
+mp.tight_layout()
+mp.show()
