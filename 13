@@ -1,0 +1,47 @@
+import tensorflow as tf
+import matplotlib.pyplot as mp
+from tensorflow.keras import layers,models
+
+(x_train,y_train),(x_test,y_test)=tf.keras.datasets.cifar10.load_data()
+
+x_train=x_train/255.0
+x_test=x_test/255.0
+
+m1=models.Sequential([
+    layers.Conv2D(32,3,activation='relu',input_shape=[32,32,3]),
+    layers.MaxPooling2D(),
+    layers.Flatten(),
+    layers.Dense(10,activation='softmax')])
+m1.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy'])
+h1=m1.fit(x_train,y_train,epochs=5,validation_data=(x_test,y_test))
+
+m2=models.Sequential([
+    layers.Conv2D(32,3,activation='relu',input_shape=[32,32,3]),
+    layers.MaxPooling2D(),
+    layers.Conv2D(64,3,activation='relu'),
+    layers.MaxPooling2D(),
+    layers.Flatten(),
+    layers.Dense(64,activation='relu'),
+    layers.Dropout(0.5),
+    layers.Dense(10,activation='softmax')
+])
+
+m2.compile(
+    optimizer=tf.keras.optimizers.Adam(0.0005),
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy'])
+h2=m2.fit(x_train,y_train,epochs=10,validation_data=(x_test,y_test))
+
+mp.plot(h1.history['val_accuracy']) 
+mp.plot(h2.history['val_accuracy'])
+mp.legend(['base','imp']) 
+mp.show()
+
+mp.plot(h1.history['val_loss'])
+mp.plot(h2.history['val_loss'])
+mp.legend(['base','imp'])
+mp.show()
+    
