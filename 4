@@ -1,0 +1,40 @@
+import numpy as np
+import matplotlib.pyplot as mp
+import numpy.random as rd
+x=np.array([[0,0],[0,1],[1,0],[1,1]])
+t=np.array([0,0,0,1])
+w=rd.rand(2)
+print(w)
+b=rd.rand(1)
+print(b)
+l=rd.rand(1)
+print(l)
+for ephoch in range(10):
+    e=0
+    for i in range(len(x)):
+        yint=np.dot(x[i],w)+b
+        ynet=1 if yint>=0 else 0
+        error=t[i]-ynet
+        if(error!=0):
+            e=e+1
+            print("error",error)
+            w=w+(x[i]*error*l)
+            b=b+(ynet*error)
+    if e==0:
+        break
+print("weight",w)
+print("bias",b)
+        
+yint=[]
+for i in range(len(x)):
+    z=np.dot(x[i],w)+b
+    yint.append(1 if z>=0 else 0)
+mp.figure(figsize=(6,6))
+x1=x[:,0]
+x2=x[:,1]
+mp.scatter(x1,x2,c=t)
+x1=np.linspace(-5.5,10.5,100)
+x2=-(x1*w[0]+b)/w[1]
+mp.plot(x1,x2,c="black")
+mp.legend()
+mp.grid()
